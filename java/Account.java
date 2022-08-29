@@ -82,6 +82,25 @@ public class Account {
 
 
     public void deposit() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the account no");
+        accNo = sc.nextInt();
+        System.out.println("Enter the amount");
+        amt = sc.nextInt();
+        Bank bank = search(accNo);
+        if(bank != null){
+            long balance = bank.getBalance();
+                balance = balance + amt;
+                bank.setBalance( balance);
+                updateAccount(bank);
+                System.out.println("Successfully deposit "+amt);
+                System.out.println("--------------------------------------------");
+                display();
+                System.out.println("--------------------------------------------");
+        }else{
+            System.out.println("Incorrect Account Number");
+        }
+
     }
 
     public void accountInfo() {

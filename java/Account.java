@@ -3,6 +3,8 @@ import java.util.Scanner;
 
 public class Account {
     ArrayList<Bank> banks = new ArrayList<>();
+    int accNo;
+    int amt;
 
     public void createAccount(){
         Scanner sc = new Scanner(System.in);
@@ -13,6 +15,9 @@ public class Account {
         int balance = sc.nextInt();
         Bank bank = new Bank(name,accountNo,balance);
         banks.add(bank);
+        System.out.println("--------------------------------------------");
+        display();
+        System.out.println("--------------------------------------------");
     }
 
     public int createAccountNo(){
@@ -33,4 +38,52 @@ public class Account {
         }
     }
 
+    public void withdraw() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the account no");
+        accNo = sc.nextInt();
+        System.out.println("Enter the amount");
+        amt = sc.nextInt();
+        Bank bank = search(accNo);
+        if(bank != null){
+            long balance = bank.getBalance();
+            if(balance<amt){
+                System.out.println("Insufficient balance can't withdraw");
+            }else{
+                balance = balance - amt;
+                bank.setBalance( balance);
+                updateAccount(bank);
+                System.out.println("Successfully Withdraw "+amt);
+                System.out.println("--------------------------------------------");
+                display();
+                System.out.println("--------------------------------------------");
+            }
+        }else{
+            System.out.println("Incorrect Account Number");
+        }
+
+    }
+
+    private void updateAccount(Bank bank) {
+        for(Bank b : banks){
+            if(b.getAccountNo() == bank.getAccountNo()){
+                b = bank;
+            }
+        }
+    }
+
+    public Bank search(int accNo){
+        for (Bank b : banks){
+            if(b.getAccountNo() == accNo)
+                return b;
+        }
+        return null;
+    }
+
+
+    public void deposit() {
+    }
+
+    public void accountInfo() {
+    }
 }

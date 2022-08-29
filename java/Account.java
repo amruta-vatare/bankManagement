@@ -1,10 +1,19 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Account {
     ArrayList<Bank> banks = new ArrayList<>();
+    ArrayList<Report> reports = new ArrayList<>();
+    Date date ;
+    DateFormat dateFormat;
+    String strDate ;
     int accNo;
     int amt;
+    String transaction;
 
     public void createAccount(){
         Scanner sc = new Scanner(System.in);
@@ -53,6 +62,12 @@ public class Account {
                 balance = balance - amt;
                 bank.setBalance( balance);
                 updateAccount(bank);
+                date = Calendar. getInstance(). getTime();
+                dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                strDate = dateFormat. format(date);
+                transaction = "Withdraw";
+                Report report = new Report(strDate,accNo,amt,transaction,balance);
+                reports.add(report);
                 System.out.println("Successfully Withdraw "+amt);
                 System.out.println("--------------------------------------------");
                 display();
@@ -93,6 +108,12 @@ public class Account {
                 balance = balance + amt;
                 bank.setBalance( balance);
                 updateAccount(bank);
+                date = Calendar. getInstance(). getTime();
+                dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                strDate = dateFormat. format(date);
+                transaction = "Deposit";
+                Report report = new Report(strDate,accNo,amt,transaction,balance);
+                reports.add(report);
                 System.out.println("Successfully deposit "+amt);
                 System.out.println("--------------------------------------------");
                 display();
@@ -104,5 +125,11 @@ public class Account {
     }
 
     public void accountInfo() {
+        System.out.println("\t\t Date \t\t\t Account No \t\t\t Amount \t\t Transaction\t\t Balance");
+        System.out.println("**************************************************************************************");
+        for (Report r:reports){
+            System.out.println(r.getDate()+"\t\t\t"+r.getAmt()+"\t\t\t"+r.getAmt()+"\t\t\t"+r.getTransaction()+"\t\t"+r.getBalance());
+            System.out.println("---------------------------------------------------------------------------------------");
+        }
     }
 }
